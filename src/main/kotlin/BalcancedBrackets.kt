@@ -11,17 +11,24 @@ fun isBalanced(s: String): String {
     val bracketsStack = Stack<Char>()
     val no = "NO"
     val yes = "YES"
-    s.forEach { bracket ->
-        if (bracket.isClosedBracket()) {
+    s.forEach { char ->
+        if (char.isClosedBracket()) {
             if (bracketsStack.isEmpty()) return no
-            if (!(bracket match bracketsStack.pop())) {
+            if (!(char match bracketsStack.pop())) {
                 return no
             }
+        } else if (!isBracket(char)) {
+            return@forEach
         } else {
-            bracketsStack.push(bracket)
+            bracketsStack.push(char)
         }
     }
     return if (bracketsStack.isEmpty()) yes else no
+}
+
+fun isBracket(char: Char): Boolean {
+    val brackets = "{}()[]"
+    return brackets.contains(char)
 }
 
 infix fun Char.match(char: Char): Boolean {
